@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { mockTrips } from "./data/mockTrips";
 
-function App() {
+function wanderMatch() {
   const [filters, setFilters] = useState({
     budget: "",
     type: "",
@@ -8,7 +9,37 @@ function App() {
     moods: [],
   });
 
+  const [filteredTrips, setFilteredTrips] = useState(mockTrips);
+
   console.log("Current filters:", filters);
+
+  const filterTrips = () => {
+    let results = mockTrips;
+
+    // Filter by budget
+    if (filters.budget) {
+      results = results.filter((trip) => trip.budget === filters.budget);
+    }
+
+    // Filter by type
+    if (filters.type) {
+      results = results.filter((trip) => trip.type === filters.type);
+    }
+
+    // Filter by duration
+    if (filters.duration) {
+      results = results.filter((trip) => trip.duration === filters.duration);
+    }
+
+    // Filter by moods (if trip has ANY of the selected moods)
+    if (filters.moods.length > 0) {
+      results = results.filter((trip) =>
+        filters.moods.some((mood) => trip.mood.includes(mood))
+      );
+    }
+
+    setFilteredTrips(results);
+  };
 
   const toggleMood = (mood) => {
     if (filters.moods.includes(mood)) {
@@ -79,8 +110,28 @@ function App() {
           )}
         </div>
       </div>
+      <div>
+        <button onClick={filterTrips}>🔍 Search Trips</button>
+      </div>
+
+      <div>
+        <h2>Found {filteredTrips.length} Trips:</h2>
+        {filteredTrips.map((trip) => (
+          <div key={trip.id}>
+            <h3>{trip.name}</h3>
+            <p>📍 {trip.location}</p>
+            <p>{trip.description}</p>
+            <p>💷 £{trip.estimatedCost}</p>
+            <p>
+              Type: {trip.type} | Budget: {trip.budget} | Duration:{" "}
+              {trip.duration}
+            </p>
+            <hr />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-export default App;
+export default wanderMatch;
