@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { mockTrips } from "./data/mockTrips";
+import "./App.css";
 
 function wanderMatch() {
   const [filters, setFilters] = useState({
@@ -73,82 +74,152 @@ function wanderMatch() {
   };
 
   return (
-    <div>
-      <h1>WanderMatch</h1>
-      <p>Find your perfect weekend escape</p>
+    <div className="app">
+      <header className="header">
+        <h1 className="logo">🧳 WanderMatch</h1>
+        <nav className="search-bar" aria-label="Trip filters">
+          <div className="search-item">
+            <label htmlFor="budget-select">Budget</label>
+            <select
+              id="budget-select"
+              value={filters.budget}
+              onChange={(e) => handleFilterChange("budget", e.target.value)}
+            >
+              <option value="">Any</option>
+              <option value="low">£50-150</option>
+              <option value="medium">£150-350</option>
+              <option value="high">£350+</option>
+            </select>
+          </div>
 
-      <div>
-        <label>Budget:</label>
-        <select
-          value={filters.budget}
-          onChange={(e) => handleFilterChange("budget", e.target.value)}
-        >
-          <option value="">Any Budget</option>
-          <option value="low">Low (£50-150)</option>
-          <option value="medium">Medium (£150-350)</option>
-          <option value="high">High (£350+)</option>
-        </select>
-      </div>
-      <div>
-        <label>Trip type: </label>
-        <select
-          value={filters.type}
-          onChange={(e) => handleFilterChange("type", e.target.value)}
-        >
-          <option value="">Any Type</option>
-          <option value="nature"> Nature</option>
-          <option value="city">City</option>
-          <option value="adventure">Adventure</option>
-          <option value="beach">Beach</option>
-          <option value="relaxation">Relaxation</option>
-        </select>
-      </div>
-      <div>
-        <label>Duration: </label>
-        <select
-          value={filters.duration}
-          onChange={(e) => handleFilterChange("duration", e.target.value)}
-        >
-          <option value="">Any Duration</option>
-          <option value="day"> Day Trip</option>
-          <option value="weekend">Weekend</option>
-          <option value="week">Week</option>
-        </select>
-      </div>
+          <div className="search-divider" aria-hidden="true"></div>
 
-      <div>
-        <label>Mood (select multiple):</label>
-        <div>
+          <div className="search-item">
+            <label htmlFor="type-select">Type</label>
+            <select
+              id="type-select"
+              value={filters.type}
+              onChange={(e) => handleFilterChange("type", e.target.value)}
+            >
+              <option value="">Any</option>
+              <option value="nature">Nature</option>
+              <option value="city">City</option>
+              <option value="adventure">Adventure</option>
+              <option value="beach">Beach</option>
+              <option value="relaxation">Relaxation</option>
+            </select>
+          </div>
+
+          <div className="search-divider" aria-hidden="true"></div>
+
+          <div className="search-item">
+            <label htmlFor="duration-select">Duration</label>
+            <select
+              id="duration-select"
+              value={filters.duration}
+              onChange={(e) => handleFilterChange("duration", e.target.value)}
+            >
+              <option value="">Any</option>
+              <option value="day">Day Trip</option>
+              <option value="weekend">Weekend</option>
+              <option value="week">Week</option>
+            </select>
+          </div>
+
+          <button
+            className="search-button"
+            type="button"
+            aria-label="Search trips"
+          >
+            <span className="search-icon" aria-hidden="true">
+              🔍
+            </span>
+          </button>
+        </nav>
+
+        <button className="reset-button" onClick={resetFilters} type="button">
+          Reset
+        </button>
+      </header>
+
+      <section className="mood-section" aria-labelledby="mood-heading">
+        <h2 id="mood-heading" className="visually-hidden">
+          Filter by mood
+        </h2>
+        <label>Mood:</label>
+        <div className="mood-buttons" role="group" aria-label="Mood options">
           {["peaceful", "active", "cultural", "scenic", "relaxing"].map(
             (mood) => (
-              <button key={mood} onClick={() => toggleMood(mood)}>
+              <button
+                key={mood}
+                className={
+                  filters.moods.includes(mood) ? "mood-btn active" : "mood-btn"
+                }
+                onClick={() => toggleMood(mood)}
+                type="button"
+                aria-pressed={filters.moods.includes(mood)}
+              >
                 {filters.moods.includes(mood) ? "✓ " : ""}
                 {mood}
               </button>
             )
           )}
         </div>
-        <div>
-          <button onClick={resetFilters}>🔄 Reset All Filters</button>
-        </div>
-      </div>
+      </section>
 
-      <div>
-        <h2>Found {filteredTrips.length} Trips:</h2>
-        {filteredTrips.map((trip) => (
-          <div key={trip.id}>
-            <h3>{trip.name}</h3>
-            <p>📍 {trip.location}</p>
-            <p>{trip.description}</p>
-            <p>💷 £{trip.estimatedCost}</p>
-            <p>
-              Type: {trip.type} | Budget: {trip.budget} | Duration:{" "}
-              {trip.duration}
-            </p>
-            <hr />
+      <main className="results-section">
+        <h2 className="results-heading">
+          {filteredTrips.length === 0
+            ? "No trips found"
+            : `${filteredTrips.length} ${
+                filteredTrips.length === 1 ? "trip" : "trips"
+              } available`}
+        </h2>
+
+        {filteredTrips.length === 0 ? (
+          <p className="no-results">
+            Try adjusting your filters to see more options
+          </p>
+        ) : (
+          <div className="trip-grid">
+            {filteredTrips.map((trip) => (
+              <article key={trip.id} className="trip-card">
+                <div className="card-image-container">
+                  <img
+                    src={trip.image}
+                    alt={`${trip.name} in ${trip.location}`}
+                    className="card-image"
+                  />
+                </div>
+
+                <div className="card-content">
+                  <header className="card-header">
+                    <h3 className="card-title">{trip.name}</h3>
+                    <span
+                      className="card-rating"
+                      aria-label="Rating: 4.9 out of 5"
+                    >
+                      ★ 4.9
+                    </span>
+                  </header>
+
+                  <p className="card-location">{trip.location}</p>
+                  <p className="card-description">{trip.description}</p>
+
+                  <footer className="card-footer">
+                    <p className="card-price">
+                      <span className="price-amount">
+                        £{trip.estimatedCost}
+                      </span>
+                      <span className="price-label"> total</span>
+                    </p>
+                  </footer>
+                </div>
+              </article>
+            ))}
           </div>
-        ))}
-      </div>
+        )}
+      </main>
     </div>
   );
 }
