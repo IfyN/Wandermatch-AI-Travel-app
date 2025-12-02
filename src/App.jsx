@@ -13,44 +13,63 @@ function wanderMatch() {
 
   console.log("Current filters:", filters);
 
-  const filterTrips = () => {
+  // This does the actual filtering with given filter values
+  const filterTripsWithValues = (filterValues) => {
     let results = mockTrips;
 
-    // Filter by budget
-    if (filters.budget) {
-      results = results.filter((trip) => trip.budget === filters.budget);
+    if (filterValues.budget) {
+      results = results.filter((trip) => trip.budget === filterValues.budget);
     }
 
-    // Filter by type
-    if (filters.type) {
-      results = results.filter((trip) => trip.type === filters.type);
+    if (filterValues.type) {
+      results = results.filter((trip) => trip.type === filterValues.type);
     }
 
-    // Filter by duration
-    if (filters.duration) {
-      results = results.filter((trip) => trip.duration === filters.duration);
+    if (filterValues.duration) {
+      results = results.filter(
+        (trip) => trip.duration === filterValues.duration
+      );
     }
 
-    // Filter by moods (if trip has ANY of the selected moods)
-    if (filters.moods.length > 0) {
+    if (filterValues.moods.length > 0) {
       results = results.filter((trip) =>
-        filters.moods.some((mood) => trip.mood.includes(mood))
+        filterValues.moods.some((mood) => trip.mood.includes(mood))
       );
     }
 
     setFilteredTrips(results);
   };
 
+  // This handles any filter change
+  const handleFilterChange = (field, value) => {
+    const newFilters = { ...filters, [field]: value };
+    setFilters(newFilters);
+    filterTripsWithValues(newFilters); // Filter with NEW values
+  };
+
+  const resetFilters = () => {
+    const InitialFilter = {
+      budget: "",
+      type: "",
+      duration: "",
+      moods: [],
+    };
+    setFilters(InitialFilter);
+    filterTripsWithValues(InitialFilter); // Reset to initial filters
+  };
+
   const toggleMood = (mood) => {
+    let newMoods;
+
     if (filters.moods.includes(mood)) {
       // Remove mood
-      const newMoods = filters.moods.filter((m) => m !== mood);
-      setFilters({ ...filters, moods: newMoods });
+      newMoods = filters.moods.filter((m) => m !== mood);
     } else {
       // Add mood
-      const newMoods = [...filters.moods, mood];
-      setFilters({ ...filters, moods: newMoods });
+      newMoods = [...filters.moods, mood];
     }
+
+    handleFilterChange("moods", newMoods);
   };
 
   return (
@@ -62,7 +81,7 @@ function wanderMatch() {
         <label>Budget:</label>
         <select
           value={filters.budget}
-          onChange={(e) => setFilters({ ...filters, budget: e.target.value })}
+          onChange={(e) => handleFilterChange("budget", e.target.value)}
         >
           <option value="">Any Budget</option>
           <option value="low">Low (£50-150)</option>
@@ -74,7 +93,7 @@ function wanderMatch() {
         <label>Trip type: </label>
         <select
           value={filters.type}
-          onChange={(e) => setFilters({ ...filters, type: e.target.value })}
+          onChange={(e) => handleFilterChange("type", e.target.value)}
         >
           <option value="">Any Type</option>
           <option value="nature"> Nature</option>
@@ -88,7 +107,7 @@ function wanderMatch() {
         <label>Duration: </label>
         <select
           value={filters.duration}
-          onChange={(e) => setFilters({ ...filters, duration: e.target.value })}
+          onChange={(e) => handleFilterChange("duration", e.target.value)}
         >
           <option value="">Any Duration</option>
           <option value="day"> Day Trip</option>
@@ -109,9 +128,9 @@ function wanderMatch() {
             )
           )}
         </div>
-      </div>
-      <div>
-        <button onClick={filterTrips}>🔍 Search Trips</button>
+        <div>
+          <button onClick={resetFilters}>🔄 Reset All Filters</button>
+        </div>
       </div>
 
       <div>
