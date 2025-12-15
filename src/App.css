@@ -1,8 +1,8 @@
-
 /* --- 1. LAYOUT FIXES (Spread End-to-End) --- */
 
 /* Ensure html and body take full width */
-html, body {
+html,
+body {
   width: 100%;
   margin: 0;
   padding: 0;
@@ -48,7 +48,8 @@ html, body {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
   color: var(--text-primary);
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
@@ -64,7 +65,7 @@ body {
   background: #fff;
   border-bottom: 1px solid #ebebeb;
   /* 5% padding keeps it breathable but content stretches relative to screen */
-  padding: 1rem 5%; 
+  padding: 1rem 5%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -88,14 +89,14 @@ body {
   background: #fff;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-pill);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.2s ease;
   padding: 8px;
   height: 60px;
 }
 
 .search-bar:hover {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
 }
 
 .search-item {
@@ -214,9 +215,12 @@ body {
 
 /* Results Section */
 .results-section {
-  padding: 24px 5%; /* Matches header padding */
+  padding: 24px 5%;
   width: 100%;
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .results-heading {
@@ -226,7 +230,7 @@ body {
   display: none;
 }
 
-/* --- GRID LAYOUT (3 per row) --- */
+/* --- GRID LAYOUT --- */
 .trip-grid {
   display: grid;
   /* Exactly 3 columns */
@@ -345,13 +349,217 @@ body {
     gap: 16px;
     padding-bottom: 16px;
   }
-  
+
   .search-bar {
     width: 100%;
     justify-content: space-between;
   }
-  
+
   .trip-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Trip Detail Page */
+.trip-detail {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.detail-nav {
+  padding: 24px 80px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #222;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.back-button:hover {
+  text-decoration: underline;
+}
+
+.detail-hero {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+}
+
+.detail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-content {
+  padding: 40px 80px;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 16px;
+}
+
+.detail-title {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.detail-location {
+  font-size: 16px;
+  color: #717171;
+}
+
+.detail-rating {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.detail-tags {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.detail-tag {
+  background: #f7f7f7;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.detail-section {
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.detail-section h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.detail-section p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #222;
+}
+
+.highlights-list {
+  list-style: none;
+  padding: 0;
+}
+
+.highlights-list li {
+  font-size: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #f7f7f7;
+}
+
+.highlights-list li:last-child {
+  border-bottom: none;
+}
+
+.mood-tags {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.mood-tag {
+  background: #e3f2fd;
+  color: #1976d2;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.detail-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 0;
+  margin-top: 32px;
+}
+
+.price-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-label {
+  font-size: 14px;
+  color: #717171;
+}
+
+.price-value {
+  font-size: 28px;
+  font-weight: 600;
+  color: #222;
+}
+
+.book-button {
+  background: #ff385c;
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.book-button:hover {
+  background: #d90b3e;
+}
+
+.trip-card:focus {
+  outline: 2px solid #ff385c;
+  outline-offset: 4px;
+}
+
+.trip-card:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .detail-nav,
+  .detail-content {
+    padding: 24px 20px;
+  }
+
+  .detail-hero {
+    height: 300px;
+  }
+
+  .detail-title {
+    font-size: 24px;
+  }
+
+  .detail-footer {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .book-button {
+    width: 100%;
   }
 }
