@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function HomePage({ filters, filteredTrips, onToggleMood }) {
@@ -25,7 +26,7 @@ function HomePage({ filters, filteredTrips, onToggleMood }) {
                 {filters.moods.includes(mood) ? "✓ " : ""}
                 {mood}
               </button>
-            )
+            ),
           )}
         </div>
       </section>

@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
@@ -30,13 +31,13 @@ function App() {
 
     if (filterValues.duration) {
       results = results.filter(
-        (trip) => trip.duration === filterValues.duration
+        (trip) => trip.duration === filterValues.duration,
       );
     }
 
     if (filterValues.moods.length > 0) {
       results = results.filter((trip) =>
-        filterValues.moods.some((mood) => trip.mood.includes(mood))
+        filterValues.moods.some((mood) => trip.mood.includes(mood)),
       );
     }
 

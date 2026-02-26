@@ -1,3 +1,5 @@
+import React from "react";
+
 function Header({ filters, onFilterChange, onReset }) {
   return (
     <header className="header">
